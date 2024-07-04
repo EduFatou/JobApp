@@ -198,7 +198,7 @@ input {
     border-radius: 5px;
     border: 1px solid #ccc;
     background-color: #fcfcfca3;
-    backdrop-filter: blur(6px);
+    /* backdrop-filter: blur(6px); */
     box-shadow: 2px 3px 6px #00000017;
     margin: 20px 10px;
 }
