@@ -1,7 +1,7 @@
 /**
  * @fileoverview Este script gestiona eventos relacionados con formularios y llamadas a APIs para operaciones CRUD.
  * @author Diego Bláquez Rosado, Emilio Latorre Guerra, Eduardo Fatou Cerrato
- * @namespace public
+ * @namespace scripts
  */
 
 // General Variables
