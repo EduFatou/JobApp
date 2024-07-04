@@ -1,4 +1,32 @@
-/**
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: controllers/users.controllers.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: controllers/users.controllers.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
  * @author Diego Bláquez Rosado, Emilio Latorre Guerra, Eduardo Fatou Cerrato
  * @exports users.controllers
  * @namespace controllers
@@ -20,7 +48,7 @@ const { validationResult } = require("express-validator");
  * @param {string} req.body.password - La contraseña del usuario.
  * @param {string} req.body.role - El rol del usuario.
  * @param {Object} res - El objeto de respuesta de Express.
- * @returns {Promise<void>} - Una promesa que se resuelve cuando se completa la operación.
+ * @returns {Promise&lt;void>} - Una promesa que se resuelve cuando se completa la operación.
  */
 
 const createUserController = async (req, res) => {
@@ -30,9 +58,9 @@ const createUserController = async (req, res) => {
     }
     const newUser = req.body;
     if (
-        "name" in newUser &&
-        "email" in newUser &&
-        "password" in newUser &&
+        "name" in newUser &amp;&amp;
+        "email" in newUser &amp;&amp;
+        "password" in newUser &amp;&amp;
         "role" in newUser
     ) {
         try {
@@ -68,7 +96,7 @@ const createUserController = async (req, res) => {
  * @param {Object} req.query - Los parámetros de consulta de la solicitud.
  * @param {string} [req.query.email] - El email del usuario a buscar.
  * @param {Object} res - El objeto de respuesta de Express.
- * @returns {Promise<void>} - Una promesa que se resuelve cuando se completa la operación.
+ * @returns {Promise&lt;void>} - Una promesa que se resuelve cuando se completa la operación.
  */
 
 const readUsersController = async (req, res) => {
@@ -109,7 +137,7 @@ const readUsersController = async (req, res) => {
  * @param {boolean} [req.body.logged] - El nuevo estado de inicio de sesión del usuario.
  * @param {string} [req.body.last_logged_date] - La nueva fecha de último inicio de sesión del usuario.
  * @param {Object} res - El objeto de respuesta de Express.
- * @returns {Promise<void>} - Una promesa que se resuelve cuando se completa la operación.
+ * @returns {Promise&lt;void>} - Una promesa que se resuelve cuando se completa la operación.
  */
 
 const updateUserController = async (req, res) => {
@@ -124,7 +152,7 @@ const updateUserController = async (req, res) => {
         "password" in modifiedUser ||
         "role" in modifiedUser ||
         "logged" in modifiedUser ||
-        "last_logged_date" in modifiedUser) &&
+        "last_logged_date" in modifiedUser) &amp;&amp;
         "old_email" in modifiedUser
     ) {
         try {
@@ -161,7 +189,7 @@ const updateUserController = async (req, res) => {
  * @param {Object} req.query - Los parámetros de consulta de la solicitud.
  * @param {string} req.query.email - El email del usuario a eliminar.
  * @param {Object} res - El objeto de respuesta de Express.
- * @returns {Promise<void>} - Una promesa que se resuelve cuando se completa la operación.
+ * @returns {Promise&lt;void>} - Una promesa que se resuelve cuando se completa la operación.
  */
 
 const deleteUserController = async (req, res) => {
@@ -205,4 +233,26 @@ module.exports = {
     // postLogout,
     // recoverPassword,
     // restorePassword
-}
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="controllers.html">controllers</a></li><li><a href="models.html">models</a></li><li><a href="public.html">public</a></li><li><a href="services.html">services</a></li><li><a href="utils.html">utils</a></li><li><a href="validators.html">validators</a></li></ul><h3>Global</h3><ul><li><a href="global.html#getDashboard">getDashboard</a></li><li><a href="global.html#getEditJob">getEditJob</a></li><li><a href="global.html#getEditUser">getEditUser</a></li><li><a href="global.html#getFavorites">getFavorites</a></li><li><a href="global.html#getHome">getHome</a></li><li><a href="global.html#getHomeBySkill">getHomeBySkill</a></li><li><a href="global.html#getLogin">getLogin</a></li><li><a href="global.html#getProfile">getProfile</a></li><li><a href="global.html#getScraping">getScraping</a></li><li><a href="global.html#getSignup">getSignup</a></li><li><a href="global.html#getUsers">getUsers</a></li><li><a href="global.html#validateForm">validateForm</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Thu Jul 04 2024 20:06:29 GMT+0200 (hora de verano de Europa central)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

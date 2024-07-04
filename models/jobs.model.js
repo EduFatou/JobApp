@@ -1,3 +1,9 @@
+/**
+ * @author Diego Bláquez Rosado, Emilio Latorre Guerra, Eduardo Fatou Cerrato
+ * @exports Job
+ * @namespace models
+ */
+
 const mongoose = require('mongoose');
 require('../config/db_mongo') // Conexión a BBDD MongoDB
 
@@ -40,6 +46,11 @@ const objectSchema = {
 const jobSchema = mongoose.Schema(objectSchema);
 
 // Crear el modelo --> Colección
+/**
+ * Modelo de Mongoose para la colección de trabajos.
+ * @memberof models
+ */
+
 const Job = mongoose.model('Job', jobSchema);
 
 module.exports = Job;

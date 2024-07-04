@@ -1,4 +1,32 @@
-/**
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: public/js/scripts.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: public/js/scripts.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
  * @fileoverview Este script gestiona eventos relacionados con formularios y llamadas a APIs para operaciones CRUD.
  * @author Diego Bláquez Rosado, Emilio Latorre Guerra, Eduardo Fatou Cerrato
  * @namespace public
@@ -43,7 +71,7 @@ document.addEventListener('submit', (event) => {
             .then(data => {
                 if (data.errors) {
                     console.error('Validation errors:', data.errors);
-                    for (i = 0; i < data.errors.length; i++) {
+                    for (i = 0; i &lt; data.errors.length; i++) {
                         console.log('Validation errors: ' + JSON.stringify(data.errors[i].msg));
                     }
                 } else {
@@ -128,7 +156,7 @@ document.addEventListener('submit', (event) => {
             .then(data => {
                 if (data.errors) {
                     console.error('Validation errors:', data.errors);
-                    for (i = 0; i < data.errors.length; i++) {
+                    for (i = 0; i &lt; data.errors.length; i++) {
                         console.log('Validation errors: ' + JSON.stringify(data.errors[i].msg));
                     }
                 } else {
@@ -173,7 +201,7 @@ document.addEventListener('click', (event) => {
             .then(data => {
                 if (data.errors) {
                     console.error('Validation errors:', data.errors);
-                    for (i = 0; i < data.errors.length; i++) {
+                    for (i = 0; i &lt; data.errors.length; i++) {
                         console.log('Validation errors: ' + JSON.stringify(data.errors[i].msg));
                     }
                 } else {
@@ -217,7 +245,7 @@ document.addEventListener('click', (event) => {
             .then(data => {
                 if (data.errors) {
                     console.error('Validation errors:', data.errors);
-                    for (i = 0; i < data.errors.length; i++) {
+                    for (i = 0; i &lt; data.errors.length; i++) {
                         console.log('Validation errors: ' + JSON.stringify(data.errors[i].msg));
                     }
                 } else {
@@ -265,7 +293,7 @@ document.addEventListener('click', (event) => {
             .then(data => {
                 if (data.errors) {
                     console.error('Validation errors:', data.errors);
-                    for (i = 0; i < data.errors.length; i++) {
+                    for (i = 0; i &lt; data.errors.length; i++) {
                         console.log('Validation errors: ' + JSON.stringify(data.errors[i].msg));
                     }
                 } else {
@@ -302,14 +330,14 @@ document.addEventListener('click', (event) => {
         const email = "edu@gmail.com";
         const jobID = event.target.value;
 
-        fetch(`http://localhost:3000/api/favorites?email=${email}&job_id=${jobID}`, {
+        fetch(`http://localhost:3000/api/favorites?email=${email}&amp;job_id=${jobID}`, {
             method: 'DELETE'
         })
             .then(response => response.json())
             .then(data => {
                 if (data.errors) {
                     console.error('Validation errors:', data.errors);
-                    for (i = 0; i < data.errors.length; i++) {
+                    for (i = 0; i &lt; data.errors.length; i++) {
                         console.log('Validation errors: ' + JSON.stringify(data.errors[i].msg));
                     }
                 } else {
@@ -364,7 +392,7 @@ document.addEventListener('submit', (event) => {
             .then(data => {
                 if (data.errors) {
                     console.error('Validation errors:', data.errors);
-                    for (i = 0; i < data.errors.length; i++) {
+                    for (i = 0; i &lt; data.errors.length; i++) {
                         console.log('Validation errors: ' + JSON.stringify(data.errors[i].msg));
                     }
                 } else {
@@ -408,7 +436,7 @@ document.addEventListener('click', (event) => {
             .then(data => {
                 if (data.errors) {
                     console.error('Validation errors:', data.errors);
-                    for (i = 0; i < data.errors.length; i++) {
+                    for (i = 0; i &lt; data.errors.length; i++) {
                         console.log('Validation errors: ' + JSON.stringify(data.errors[i].msg));
                     }
                 } else {
@@ -458,7 +486,7 @@ document.addEventListener('submit', (event) => {
             .then(data => {
                 if (data.errors) {
                     console.error('Validation errors:', data.errors);
-                    for (i = 0; i < data.errors.length; i++) {
+                    for (i = 0; i &lt; data.errors.length; i++) {
                         console.log('Validation errors: ' + JSON.stringify(data.errors[i].msg));
                     }
                 } else {
@@ -633,7 +661,7 @@ const validateForm = () => {
     const confirmPassword = document.getElementById('confirmPassword');
     const inputs = document.querySelectorAll('input');
     const passwordInstructions = document.getElementById('instructions');
-    // const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    // const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&amp;])[A-Za-z\d@$!%*?&amp;]{8,}$/;
     const passwordRegex = /^.{8}$/;
 
     passwordInstructions.style.display = 'none';
@@ -740,11 +768,33 @@ const generateFooter = () => {
     shuffleArray(developers);
     developers.forEach((element) => {
         const spanDev = document.createElement('SPAN');
-        spanDev.innerHTML = `${element.name} <a href="${element.github}" target="_blank"><i class="fa-brands fa-github fa-lg" style="color: #ffffff;"></i></a>`;
+        spanDev.innerHTML = `${element.name} &lt;a href="${element.github}" target="_blank">&lt;i class="fa-brands fa-github fa-lg" style="color: #ffffff;">&lt;/i>&lt;/a>`;
         fragment.append(spanDev);
     });
     footerDevsContainer.append(fragment);
 };
 
 // Function Calls
-generateFooter();
+generateFooter();</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="controllers.html">controllers</a></li><li><a href="models.html">models</a></li><li><a href="public.html">public</a></li><li><a href="services.html">services</a></li><li><a href="utils.html">utils</a></li><li><a href="validators.html">validators</a></li></ul><h3>Global</h3><ul><li><a href="global.html#getDashboard">getDashboard</a></li><li><a href="global.html#getEditJob">getEditJob</a></li><li><a href="global.html#getEditUser">getEditUser</a></li><li><a href="global.html#getFavorites">getFavorites</a></li><li><a href="global.html#getHome">getHome</a></li><li><a href="global.html#getHomeBySkill">getHomeBySkill</a></li><li><a href="global.html#getLogin">getLogin</a></li><li><a href="global.html#getProfile">getProfile</a></li><li><a href="global.html#getScraping">getScraping</a></li><li><a href="global.html#getSignup">getSignup</a></li><li><a href="global.html#getUsers">getUsers</a></li><li><a href="global.html#validateForm">validateForm</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Thu Jul 04 2024 20:06:29 GMT+0200 (hora de verano de Europa central)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
