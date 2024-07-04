@@ -8,10 +8,6 @@ const queries = require('../queries/users.queries')
 const pool = require('../config/db_pgsql');
 
 // CREATE
-<<<<<<< HEAD
-const createUser = async (name, email, password) => {
-    // const { name, email, password, role} = user;
-=======
 /**
  * Esta función crea un nuevo usuario en la base de datos.
  * @method createUser
@@ -24,7 +20,6 @@ const createUser = async (name, email, password) => {
 
 const createUser = async (user) => {
     const { name, email, password, role} = user;
->>>>>>> jsdoc
     let client, result;
     try {
         client = await pool.connect(); // Espera a abrir conexion
