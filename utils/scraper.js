@@ -1,8 +1,26 @@
+/**
+ * @author Diego Bláquez Rosado, Emilio Latorre Guerra, Eduardo Fatou Cerrato
+ * @exports scrap
+ * @namespace utils
+ */
+
 const puppeteer = require("puppeteer");
 const urlToptal = 'https://www.toptal.com/freelance-jobs/developers/jobs/';
 const urlFreelancer = 'https://www.freelancer.es/jobs/php_html_css_javascript_nodejs_java/?featured=true&languages=en';
 
+
 // Creamos una función para extraer la información de cada oferta de Toptal
+/**
+ * Esta función extrae los datos de una oferta de trabajo en Toptal.
+ * @function extractProductDataToptal
+ * @memberof utils
+ * @async
+ * @param {string} url - URL de la oferta de trabajo en Toptal.
+ * @param {Object} browser - Instancia del navegador Puppeteer.
+ * @return {Promise<Object>} Objeto con los datos extraídos de la oferta de trabajo en Toptal.
+ * @throws {Error} Error en caso de problemas durante la extracción de datos.
+ */
+
 const extractProductDataToptal = async (url, browser) => {
     try {
         const toptalData = {}
@@ -28,6 +46,16 @@ const extractProductDataToptal = async (url, browser) => {
 }
 
 // Creamos una función para extraer la información de cada oferta de Freelancer
+/**
+ * Esta función extrae los datos de una oferta de trabajo en Freelancer.
+ * @function extractProductDataFreelancer
+ * @memberof utils
+ * @async
+ * @param {string} url - URL de la oferta de trabajo en Freelancer.
+ * @param {Object} browser - Instancia del navegador Puppeteer.
+ * @return {Promise<Object>} Objeto con los datos extraídos de la oferta de trabajo en Freelancer.
+ * @throws {Error} Error en caso de problemas durante la extracción de datos.
+ */
 const extractProductDataFreelancer = async (url, browser) => {
     try {
         const freelancerData = {}
@@ -58,6 +86,18 @@ const extractProductDataFreelancer = async (url, browser) => {
         return { error: err }
     }
 }
+
+
+/**
+ * Esta función realiza scraping en dos sitios web diferentes (Toptal y Freelancer) para extraer información de ofertas de trabajo.
+ * @function scrap
+ * @memberof utils
+ * @async
+ * @param {string} url1 - URL del primer sitio web (Toptal) para hacer scraping.
+ * @param {string} url2 - URL del segundo sitio web (Freelancer) para hacer scraping.
+ * @return {Promise<Array>} Array de objetos que contienen los datos de las ofertas de trabajo extraídas.
+ * @throws {Error} Error en caso de problemas durante el scraping.
+ */
 
 const scrap = async (url1, url2) => {
     try {

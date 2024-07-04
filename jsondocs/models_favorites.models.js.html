@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: models/favorites.models.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: models/favorites.models.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @author Diego Bláquez Rosado, Emilio Latorre Guerra, Eduardo Fatou Cerrato
+ * @exports favorites.models
+ * @namespace models
+ */
+
+const queries = require('../queries/favorites.queries')
+const pool = require('../config/db_pgsql');
+
+// CREATE
+/**
+ * Crea un nuevo favorito en la base de datos.
+ * @memberof models
+ * @method createFavorite
+ * @async
+ * @param {Object} favorite - El objeto favorito a crear.
+ * @param {string} favorite.email - El email del usuario.
+ * @param {string} favorite.job_id - El ID del trabajo.
+ * @returns {Promise&lt;number>} - El número de filas afectadas.
+ * @throws {Error} - Lanza un error si hay problemas con la base de datos.
+ */
+
+const createFavorite = async (favorite) => {
+    const { email, job_id } = favorite;
+    let client, result;
+    try {
+        client = await pool.connect(); // Espera a abrir conexion
+        const data = await client.query(queries.createFavorite, [email, job_id]);
+        result = data.rowCount;
+    } catch (err) {
+        console.log(err);
+        throw err;
+    } finally {
+        client.release();
+    }
+    return result
+}
+// Pruebas PostgreSQL
+// let newFavorite = {
+//     email: 'diego@gmail.com',
+//     job_id: "2"
+// }
+// createFavorite(newFavorite)
+//     .then(data => console.log(data))
+//     .catch(error => console.log(error))
+
+
+// READ
+/**
+ * Lee los favoritos de un usuario desde la base de datos.
+ * @memberof models
+ * @method readFavorites
+ * @async
+ * @param {string} email - El email del usuario.
+ * @returns {Promise&lt;Object[]>} - Una lista de favoritos del usuario.
+ * @throws {Error} - Lanza un error si hay problemas con la base de datos.
+ */
+
+const readFavorites = async (email) => {
+    let client, result;
+    try {
+        client = await pool.connect(); // Espera a abrir conexion
+        const data = await client.query(queries.readFavorites, [email]);
+        result = data.rows;
+    } catch (err) {
+        console.log(err);
+        throw err;
+    } finally {
+        client.release();
+    }
+    return result
+}
+// Pruebas PostgreSQL
+// readFavorites('diego@gmail.com')
+//     .then(data=>console.log(data))
+//     .catch(error => console.log(error))
+
+
+// DELETE
+/**
+ * Elimina un favorito de la base de datos.
+ * @memberof models
+ * @method deleteFavorite
+ * @async
+ * @param {string} email - El email del usuario.
+ * @param {string} job_id - El ID del anuncio.
+ * @returns {Promise&lt;number>} - El número de filas afectadas.
+ * @throws {Error} - Lanza un error si hay problemas con la base de datos.
+ */
+
+const deleteFavorite = async (email, job_id) => {
+    let client, result;
+    try {
+        client = await pool.connect(); // Espera a abrir conexion
+        const data = await client.query(queries.deleteFavorite, [email, job_id])
+        result = data.rowCount
+    } catch (err) {
+        console.log(err);
+        throw err;
+    } finally {
+        client.release();
+    }
+    return result
+}
+// Pruebas PostgreSQL
+// deleteFavorite('diego@gmail.com', '2')
+//     .then(data => console.log(data))
+//     .catch(error => console.log(error))
+
+const favorites = {
+    createFavorite,
+    readFavorites,
+    deleteFavorite
+}
+
+module.exports = favorites;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="controllers.html">controllers</a></li><li><a href="models.html">models</a></li><li><a href="scripts.html">scripts</a></li><li><a href="services.html">services</a></li><li><a href="utils.html">utils</a></li><li><a href="validators.html">validators</a></li></ul><h3>Global</h3><ul><li><a href="global.html#getDashboard">getDashboard</a></li><li><a href="global.html#getEditJob">getEditJob</a></li><li><a href="global.html#getEditUser">getEditUser</a></li><li><a href="global.html#getFavorites">getFavorites</a></li><li><a href="global.html#getHome">getHome</a></li><li><a href="global.html#getHomeBySkill">getHomeBySkill</a></li><li><a href="global.html#getLogin">getLogin</a></li><li><a href="global.html#getProfile">getProfile</a></li><li><a href="global.html#getScraping">getScraping</a></li><li><a href="global.html#getSignup">getSignup</a></li><li><a href="global.html#getUsers">getUsers</a></li><li><a href="global.html#validateForm">validateForm</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Thu Jul 04 2024 21:02:48 GMT+0200 (hora de verano de Europa central)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

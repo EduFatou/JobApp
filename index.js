@@ -31,6 +31,7 @@ app.use('/', webRoutes);
 app.use('/api/jobs', jobsRoutes);
 app.use('/api/user', usersRoutes);
 app.use('/api/favorites', favoritesRoutes);
+//app.use('/api-jsdoc', express.static(path.join(__dirname, './jsondocs')));
 
 app.listen(port, () => {
     console.log(`Job App listening on https://jobapp-w73i.onrender.com:${port}`);

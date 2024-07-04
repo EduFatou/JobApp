@@ -1,5 +1,26 @@
+/**
+ * @author Diego Bláquez Rosado, Emilio Latorre Guerra, Eduardo Fatou Cerrato
+ * @exports favorites
+ * @namespace controllers
+ */
+
 const favorite = require('../models/favorites.models');
 const { validationResult } = require("express-validator");
+
+
+/**
+ * Descripción de la función: Esta función crea un nuevo favorito en la base de datos.
+ * @method deleteUser
+ * @memberof controllers
+ * @async
+ * @function createFavoriteController
+ * @param {Object} req - El objeto de solicitud de Express.
+ * @param {Object} req.body - El cuerpo de la solicitud.
+ * @param {string} req.body.email - El email del usuario.
+ * @param {string} req.body.job_id - El ID del trabajo.
+ * @param {Object} res - El objeto de respuesta de Express.
+ * @returns {Promise<void>} - Una promesa que se resuelve cuando se completa la operación.
+ */
 
 const createFavoriteController = async (req, res) => {
     const errors = validationResult(req);
@@ -30,6 +51,19 @@ const createFavoriteController = async (req, res) => {
 //     "job_id": "2"
 // }
 
+
+/**
+ * Lee los favoritos de un usuario desde la base de datos.
+ * @memberof controllers
+ * @async
+ * @function readFavoritesController
+ * @param {Object} req - El objeto de solicitud de Express.
+ * @param {Object} req.query - Los parámetros de consulta de la solicitud.
+ * @param {string} req.query.email - El email del usuario.
+ * @param {Object} res - El objeto de respuesta de Express.
+ * @returns {Promise<void>} - Una promesa que se resuelve cuando se completa la operación.
+ */
+
 const readFavoritesController = async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -45,6 +79,21 @@ const readFavoritesController = async (req, res) => {
 }
 // Prueba Postman
 // GET https://jobapp-w73i.onrender.com
+
+
+
+/**
+ * Elimina un favorito de un usuario en la base de datos.
+ * @memberof controllers
+ * @async
+ * @function deleteFavoriteController
+ * @param {Object} req - El objeto de solicitud de Express.
+ * @param {Object} req.query - Los parámetros de consulta de la solicitud.
+ * @param {string} req.query.email - El email del usuario.
+ * @param {string} req.query.job_id - El ID del trabajo.
+ * @param {Object} res - El objeto de respuesta de Express.
+ * @returns {Promise<void>} - Una promesa que se resuelve cuando se completa la operación.
+ */
 
 const deleteFavoriteController = async (req, res) => {
     const errors = validationResult(req);

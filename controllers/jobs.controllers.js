@@ -1,5 +1,30 @@
+/**
+ * @author Diego Bláquez Rosado, Emilio Latorre Guerra, Eduardo Fatou Cerrato
+ * @exports jobs.controllers
+ * @namespace controllers
+ */
+
 const jobService = require('../services/jobs.services');
 const { validationResult } = require("express-validator");
+
+
+/**
+ * Descripción de la función: Esta función crea un nuevo trabajo en la base de datos.
+ * @memberof controllers
+ * @async
+ * @function createJobController
+ * @param {Object} req - El objeto de solicitud de Express.
+ * @param {Object} req.body - El cuerpo de la solicitud.
+ * @param {string} req.body.title - El título del trabajo.
+ * @param {string} req.body.description - La descripción del trabajo.
+ * @param {Array<string>} req.body.skills - Las habilidades requeridas para el trabajo.
+ * @param {string} req.body.client_location - La ubicación del cliente.
+ * @param {string} req.body.url - La URL del trabajo.
+ * @param {string} req.body.source - La fuente del trabajo.
+ * @param {boolean} req.body.status - El estado del trabajo.
+ * @param {Object} res - El objeto de respuesta de Express.
+ * @returns {Promise<void>} - Una promesa que se resuelve cuando se completa la operación.
+ */
 
 const createJobController = async (req, res) => {
     // Validate request
@@ -44,6 +69,18 @@ const createJobController = async (req, res) => {
 //     }
 // };
 
+
+/**
+ * Descripción de la función: Esta función lee los trabajos desde la base de datos.
+ * @memberof controllers
+ * @async
+ * @function readJobsController
+ * @param {Object} req - El objeto de solicitud de Express.
+ * @param {Object} req.body - El cuerpo de la solicitud.
+ * @param {string} [req.body.keyword] - La palabra clave para filtrar trabajos.
+ * @param {Object} res - El objeto de respuesta de Express.
+ * @returns {Promise<void>} - Una promesa que se resuelve cuando se completa la operación.
+ */
 // READ 2.0
 const readJobsController = async (req, res) => {
     let jobs;
@@ -57,6 +94,19 @@ const readJobsController = async (req, res) => {
 };
 // Prueba Postman
 // GET https://jobapp-w73i.onrender.com/api/jobs
+
+
+/**
+ * Descripción de la función: Esta función actualiza un trabajo en la base de datos.
+ * @memberof controllers
+ * @async
+ * @function updateJobController
+ * @param {Object} req - El objeto de solicitud de Express.
+ * @param {Object} req.query - Los parámetros de consulta de la solicitud.
+ * @param {Object} req.body - El cuerpo de la solicitud.
+ * @param {Object} res - El objeto de respuesta de Express.
+ * @returns {Promise<void>} - Una promesa que se resuelve cuando se completa la operación.
+ */
 
 const updateJobController = async (req, res) => {
     // Validate request
@@ -84,6 +134,19 @@ const updateJobController = async (req, res) => {
 //     "source": "scraping",
 //     "status": false
 // }
+
+
+/**
+ * Descripción de la función: Esta función elimina un trabajo de la base de datos.
+ * @memberof controllers
+ * @async
+ * @function deleteJobController
+ * @param {Object} req - El objeto de solicitud de Express.
+ * @param {Object} req.query - Los parámetros de consulta de la solicitud.
+ * @param {string} req.query.title - El título del trabajo a eliminar.
+ * @param {Object} res - El objeto de respuesta de Express.
+ * @returns {Promise<void>} - Una promesa que se resuelve cuando se completa la operación.
+ */
 
 const deleteJobController = async (req, res) => {
     // Validate request

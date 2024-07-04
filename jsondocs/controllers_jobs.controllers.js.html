@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: controllers/jobs.controllers.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: controllers/jobs.controllers.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @author Diego Bláquez Rosado, Emilio Latorre Guerra, Eduardo Fatou Cerrato
+ * @exports jobs.controllers
+ * @namespace controllers
+ */
+
+const jobService = require('../services/jobs.services');
+const { validationResult } = require("express-validator");
+
+
+/**
+ * Descripción de la función: Esta función crea un nuevo trabajo en la base de datos.
+ * @memberof controllers
+ * @async
+ * @function createJobController
+ * @param {Object} req - El objeto de solicitud de Express.
+ * @param {Object} req.body - El cuerpo de la solicitud.
+ * @param {string} req.body.title - El título del trabajo.
+ * @param {string} req.body.description - La descripción del trabajo.
+ * @param {Array&lt;string>} req.body.skills - Las habilidades requeridas para el trabajo.
+ * @param {string} req.body.client_location - La ubicación del cliente.
+ * @param {string} req.body.url - La URL del trabajo.
+ * @param {string} req.body.source - La fuente del trabajo.
+ * @param {boolean} req.body.status - El estado del trabajo.
+ * @param {Object} res - El objeto de respuesta de Express.
+ * @returns {Promise&lt;void>} - Una promesa que se resuelve cuando se completa la operación.
+ */
+
+const createJobController = async (req, res) => {
+    // Validate request
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+    const { title, description, skills, client_location, url, source, status } = req.body;
+    if (title &amp;&amp; description &amp;&amp; skills &amp;&amp; client_location &amp;&amp; url &amp;&amp; source &amp;&amp; status !== undefined) {
+        try {
+            const response = await jobService.createJob(title, description, skills, client_location, url, source, status);
+            res.status(201).json({
+                "items_created": response
+            });
+        } catch (error) {
+            res.status(500).json({ mensaje: error.message });
+        }
+    } else {
+        res.status(400).json({ error: "Missing fields" });
+    }
+};
+// Prueba Postman
+// POST http://localhost:3000/api/jobs
+// {
+//     "title": "Experienced Virtual Assistant for Creating Shopify Landing/Product Pages",
+//     "description": "We are looking for an experienced virtual assistant who can help us create stunning landing and product pages on Shopify for our multiple e-commerce brands.",
+//     "skills": ["Shopify", "Web Design", "Data Entry"],
+//     "client_location": "United States",
+//     "url": "www.google.com",
+//     "source": "scraping",
+//     "status": true
+// }
+
+// READ all mongodb
+// const readJobsController = async (req, res) => {
+//     let jobs;
+//     try {
+//         jobs = await jobService.readJobs();
+//         res.status(200).json(jobs); // [] con los jobs encontrados
+//     } catch (error) {
+//         res.status(500).json({ error: error.message });
+//     }
+// };
+
+
+/**
+ * Descripción de la función: Esta función lee los trabajos desde la base de datos.
+ * @memberof controllers
+ * @async
+ * @function readJobsController
+ * @param {Object} req - El objeto de solicitud de Express.
+ * @param {Object} req.body - El cuerpo de la solicitud.
+ * @param {string} [req.body.keyword] - La palabra clave para filtrar trabajos.
+ * @param {Object} res - El objeto de respuesta de Express.
+ * @returns {Promise&lt;void>} - Una promesa que se resuelve cuando se completa la operación.
+ */
+// READ 2.0
+const readJobsController = async (req, res) => {
+    let jobs;
+    try {
+        const keyword = req.body.keyword || null;
+        jobs = await jobService.readJobs(keyword);
+        res.status(200).json(jobs); // [] con los jobs encontrados
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+// Prueba Postman
+// GET http://localhost:3000/api/jobs
+
+
+/**
+ * Descripción de la función: Esta función actualiza un trabajo en la base de datos.
+ * @memberof controllers
+ * @async
+ * @function updateJobController
+ * @param {Object} req - El objeto de solicitud de Express.
+ * @param {Object} req.query - Los parámetros de consulta de la solicitud.
+ * @param {Object} req.body - El cuerpo de la solicitud.
+ * @param {Object} res - El objeto de respuesta de Express.
+ * @returns {Promise&lt;void>} - Una promesa que se resuelve cuando se completa la operación.
+ */
+
+const updateJobController = async (req, res) => {
+    // Validate request
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+    filter = req.query;
+    update = req.body;
+    try {
+        const modifiedJob = await jobService.updateJob(filter, update);
+        res.status(200).json(modifiedJob);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+// Prueba Postman
+// PUT http://localhost:3000/api/jobs?title=Experienced Virtual Assistant for Creating Shopify Landing/Product Pages
+// {
+//     "title": "Experienced Virtual Assistant for Creating Shopify Landing/Product Pages",
+//     "description": "We are looking for an experienced virtual assistant who can help us create stunning landing and product pages on Shopify for our multiple e-commerce brands.",
+//     "skills": ["Shopify", "Web Design", "Data Entry"],
+//     "client_location": "United States",
+//     "url": "www.google.com",
+//     "source": "scraping",
+//     "status": false
+// }
+
+
+/**
+ * Descripción de la función: Esta función elimina un trabajo de la base de datos.
+ * @memberof controllers
+ * @async
+ * @function deleteJobController
+ * @param {Object} req - El objeto de solicitud de Express.
+ * @param {Object} req.query - Los parámetros de consulta de la solicitud.
+ * @param {string} req.query.title - El título del trabajo a eliminar.
+ * @param {Object} res - El objeto de respuesta de Express.
+ * @returns {Promise&lt;void>} - Una promesa que se resuelve cuando se completa la operación.
+ */
+
+const deleteJobController = async (req, res) => {
+    // Validate request
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+    let jobs;
+    try {
+        jobs = await jobService.deleteJob(req.query.title);
+        res.status(200).json(jobs); // [] con los jobs encontradas
+    } catch (error) {
+        res.status(500).json({ error: "Error from database" });
+    }
+};
+// Prueba Postman
+// DELETE http://localhost:3000/api/jobs?title=Experienced Virtual Assistant for Creating Shopify Landing/Product Pages
+
+module.exports = {
+    createJobController,
+    readJobsController,
+    updateJobController,
+    deleteJobController
+}
+
+
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="controllers.html">controllers</a></li><li><a href="models.html">models</a></li><li><a href="scripts.html">scripts</a></li><li><a href="services.html">services</a></li><li><a href="utils.html">utils</a></li><li><a href="validators.html">validators</a></li></ul><h3>Global</h3><ul><li><a href="global.html#getDashboard">getDashboard</a></li><li><a href="global.html#getEditJob">getEditJob</a></li><li><a href="global.html#getEditUser">getEditUser</a></li><li><a href="global.html#getFavorites">getFavorites</a></li><li><a href="global.html#getHome">getHome</a></li><li><a href="global.html#getHomeBySkill">getHomeBySkill</a></li><li><a href="global.html#getLogin">getLogin</a></li><li><a href="global.html#getProfile">getProfile</a></li><li><a href="global.html#getScraping">getScraping</a></li><li><a href="global.html#getSignup">getSignup</a></li><li><a href="global.html#getUsers">getUsers</a></li><li><a href="global.html#validateForm">validateForm</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Thu Jul 04 2024 21:02:48 GMT+0200 (hora de verano de Europa central)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
