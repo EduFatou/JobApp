@@ -1,9 +1,31 @@
+/**
+ * @author Diego Bláquez Rosado, Emilio Latorre Guerra, Eduardo Fatou Cerrato
+ * @exports users.controllers
+ * @namespace controllers
+ */
+
 const user = require('../models/users.models');
 const { validationResult } = require("express-validator");
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const jwt_secret = process.env.ULTRA_SECRET_KEY;
+
+
+/**
+ * Descripción de la función: Esta función crea un nuevo usuario en la base de datos.
+ * @memberof controllers
+ * @async
+ * @function createUserController
+ * @param {Object} req - El objeto de solicitud de Express.
+ * @param {Object} req.body - El cuerpo de la solicitud.
+ * @param {string} req.body.name - El nombre del usuario.
+ * @param {string} req.body.email - El email del usuario.
+ * @param {string} req.body.password - La contraseña del usuario.
+ * @param {string} req.body.role - El rol del usuario.
+ * @param {Object} res - El objeto de respuesta de Express.
+ * @returns {Promise<void>} - Una promesa que se resuelve cuando se completa la operación.
+ */
 
 const createUserController = async (req, res) => {
     const errors = validationResult(req);
@@ -41,6 +63,19 @@ const createUserController = async (req, res) => {
 //     "last_logged_date": "2024-07-01 20:57:30.212678+00"
 // }
 
+
+/**
+ * Descripción de la función: Esta función lee los usuarios desde la base de datos.
+ * @memberof controllers
+ * @async
+ * @function readUsersController
+ * @param {Object} req - El objeto de solicitud de Express.
+ * @param {Object} req.query - Los parámetros de consulta de la solicitud.
+ * @param {string} [req.query.email] - El email del usuario a buscar.
+ * @param {Object} res - El objeto de respuesta de Express.
+ * @returns {Promise<void>} - Una promesa que se resuelve cuando se completa la operación.
+ */
+
 const readUsersController = async (req, res) => {
     let users;
     try {
@@ -62,6 +97,25 @@ const readUsersController = async (req, res) => {
 // Prueba Postman
 // GET ALL http://localhost:3000/api/user
 // GET ONE http://localhost:3000/api/user?email=prueba@gmail.com
+
+
+/**
+ * Descripción de la función: Esta función actualiza un usuario en la base de datos.
+ * @memberof controllers
+ * @async
+ * @function updateUserController
+ * @param {Object} req - El objeto de solicitud de Express.
+ * @param {Object} req.body - El cuerpo de la solicitud.
+ * @param {string} req.body.old_email - El email actual del usuario.
+ * @param {string} [req.body.name] - El nuevo nombre del usuario.
+ * @param {string} [req.body.email] - El nuevo email del usuario.
+ * @param {string} [req.body.password] - La nueva contraseña del usuario.
+ * @param {string} [req.body.role] - El nuevo rol del usuario.
+ * @param {boolean} [req.body.logged] - El nuevo estado de inicio de sesión del usuario.
+ * @param {string} [req.body.last_logged_date] - La nueva fecha de último inicio de sesión del usuario.
+ * @param {Object} res - El objeto de respuesta de Express.
+ * @returns {Promise<void>} - Una promesa que se resuelve cuando se completa la operación.
+ */
 
 const updateUserController = async (req, res) => {
     const errors = validationResult(req);
@@ -101,6 +155,19 @@ const updateUserController = async (req, res) => {
 //     "logged": false,
 //     "last_logged_date": "2024-07-01 20:57:30.212678+00"
 // }
+
+
+/**
+ * Descripción de la función: Esta función elimina un usuario de la base de datos.
+ * @memberof controllers
+ * @async
+ * @function deleteUserController
+ * @param {Object} req - El objeto de solicitud de Express.
+ * @param {Object} req.query - Los parámetros de consulta de la solicitud.
+ * @param {string} req.query.email - El email del usuario a eliminar.
+ * @param {Object} res - El objeto de respuesta de Express.
+ * @returns {Promise<void>} - Una promesa que se resuelve cuando se completa la operación.
+ */
 
 const deleteUserController = async (req, res) => {
     const errors = validationResult(req);

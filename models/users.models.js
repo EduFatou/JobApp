@@ -1,9 +1,30 @@
+/**
+ * @author Diego Bláquez Rosado, Emilio Latorre Guerra, Eduardo Fatou Cerrato
+ * @exports users.models
+ * @namespace models
+ */
+
 const queries = require('../queries/users.queries')
 const pool = require('../config/db_pgsql');
 
 // CREATE
+<<<<<<< HEAD
 const createUser = async (name, email, password) => {
     // const { name, email, password, role} = user;
+=======
+/**
+ * Esta función crea un nuevo usuario en la base de datos.
+ * @method createUser
+ * @memberof models
+ * @async
+ * @param {Object} user - Objeto usuario con las propiedades name, email, password, y role.
+ * @return {Promise<number>} Número de filas afectadas.
+ * @throws {Error} Error al crear el usuario.
+ */
+
+const createUser = async (user) => {
+    const { name, email, password, role} = user;
+>>>>>>> jsdoc
     let client, result;
     try {
         client = await pool.connect(); // Espera a abrir conexion
@@ -30,7 +51,17 @@ const createUser = async (name, email, password) => {
 //     .then(data => console.log(data))
 //     .catch(error => console.log(error))
 
+
 // READ ALL
+/**
+ * Esta función lee todos los usuarios de la base de datos.
+ * @method readUsers
+ * @memberof models
+ * @async
+ * @return {Promise<Array>} Array de objetos usuario.
+ * @throws {Error} Error al leer los usuarios.
+ */
+
 const readUsers = async () => {
     let client, result;
     try {
@@ -50,7 +81,18 @@ const readUsers = async () => {
 //     .then(data=>console.log(data))
 //     .catch(error => console.log(error))
 
+
 // READ ONE
+/**
+ * Esta función lee un usuario de la base de datos por email.
+ * @method readUsersByEmail
+ * @memberof models
+ * @async
+ * @param {string} email - Email del usuario a leer.
+ * @return {Promise<Array>} Array de objetos usuario.
+ * @throws {Error} Error al leer el usuario.
+ */
+
 const readUsersByEmail = async (email) => {
     let client, result;
     try {
@@ -71,6 +113,16 @@ const readUsersByEmail = async (email) => {
 //     .catch(error => console.log(error))
 
 // UPDATE
+/**
+ * Esta función actualiza un usuario en la base de datos.
+ * @method updateUser
+ * @memberof models
+ * @async
+ * @param {Object} user - Objeto usuario con las propiedades a actualizar.
+ * @return {Promise<number>} Número de filas afectadas.
+ * @throws {Error} Error al actualizar el usuario.
+ */
+
 const updateUser = async (user) => {
     const { name, email, password, role, logged, last_logged_date, old_email } = user;
     let client, result;
@@ -131,7 +183,18 @@ const updateUser = async (user) => {
 //     .then(data => console.log(data))
 //     .catch(error => console.log(error))
 
+
 // DELETE
+/**
+ * Esta función elimina un usuario de la base de datos por email.
+ * @method deleteUser
+ * @memberof models
+ * @async
+ * @param {string} email - Email del usuario a eliminar.
+ * @return {Promise<number>} Número de filas afectadas.
+ * @throws {Error} Error al eliminar el usuario.
+ */
+
 const deleteUser = async (email) => {
     let client, result;
     try {

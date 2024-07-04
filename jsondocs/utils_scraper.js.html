@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: utils/scraper.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: utils/scraper.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @author Diego Bláquez Rosado, Emilio Latorre Guerra, Eduardo Fatou Cerrato
+ * @exports scrap
+ * @namespace utils
+ */
+
+const puppeteer = require("puppeteer");
+const urlToptal = 'https://www.toptal.com/freelance-jobs/developers/jobs/';
+const urlFreelancer = 'https://www.freelancer.es/jobs/php_html_css_javascript_nodejs_java/?featured=true&amp;languages=en';
+
+
+// Creamos una función para extraer la información de cada oferta de Toptal
+/**
+ * Esta función extrae los datos de una oferta de trabajo en Toptal.
+ * @function extractProductDataToptal
+ * @memberof utils
+ * @async
+ * @param {string} url - URL de la oferta de trabajo en Toptal.
+ * @param {Object} browser - Instancia del navegador Puppeteer.
+ * @return {Promise&lt;Object>} Objeto con los datos extraídos de la oferta de trabajo en Toptal.
+ * @throws {Error} Error en caso de problemas durante la extracción de datos.
+ */
+
+const extractProductDataToptal = async (url, browser) => {
+    try {
+        const toptalData = {}
+        const page = await browser.newPage()
+        await page.goto(url)
+
+        //titulo
+        toptalData['title'] = await page.$eval('h1[data-testid="job-details-title"]', title => title.innerText);
+        //descripción
+        toptalData['description'] = await page.$eval('div[data-testid="job-description"] > p', description => description.innerText);
+        //skills
+        toptalData['skills'] = await page.$$eval('.flex.flex-wrap.gap-2 > li', data => data.map(a => a.innerText));
+        //localizacion cliente
+        toptalData['client_location'] = await page.$eval('.paragraph-xs.text-gray-700:nth-child(4) > p', p => p.innerText)
+        //link al job
+        toptalData['url'] = url;
+
+        return toptalData // Devuelve los datos de un oferta
+    }
+    catch (err) {
+        return { error: err }
+    }
+}
+
+// Creamos una función para extraer la información de cada oferta de Freelancer
+/**
+ * Esta función extrae los datos de una oferta de trabajo en Freelancer.
+ * @function extractProductDataFreelancer
+ * @memberof utils
+ * @async
+ * @param {string} url - URL de la oferta de trabajo en Freelancer.
+ * @param {Object} browser - Instancia del navegador Puppeteer.
+ * @return {Promise&lt;Object>} Objeto con los datos extraídos de la oferta de trabajo en Freelancer.
+ * @throws {Error} Error en caso de problemas durante la extracción de datos.
+ */
+const extractProductDataFreelancer = async (url, browser) => {
+    try {
+        const freelancerData = {}
+        const page = await browser.newPage()
+        await page.goto(url);
+
+        //titulo
+        freelancerData['title'] = await page.$eval('h1', title => title.innerText);
+        //descripción (limitado a 300 caracteres)
+        let description = await page.$eval('fl-text[class="Project-description"] > div', description => description.innerHTML);
+        description = description.replace(/\n\s*/g, ' ');
+        if (description.length > 200) {
+            description = description.substring(0, 300) + '...';
+        }
+        freelancerData['description'] = description
+        //skills (limitado a 3 skills, devuelve 5 en total)
+        let skills = await page.$$eval('div[_ngcontent-webapp-c598].ng-star-inserted > fl-tag > fl-link > a > div > fl-text > span > div', skills => skills.map(a => a.innerText));
+        skills = skills.slice(0, 3)
+        freelancerData['skills'] = skills
+        //localizacion cliente
+        freelancerData['client_location'] = await page.$eval('app-project-view-logged-out-client-info > div:nth-child(2) > fl-text > div', location => location.innerText)
+        //link al job
+        freelancerData['url'] = url;
+
+        return freelancerData // Devuelve los datos de un oferta
+    }
+    catch (err) {
+        return { error: err }
+    }
+}
+
+
+/**
+ * Esta función realiza scraping en dos sitios web diferentes (Toptal y Freelancer) para extraer información de ofertas de trabajo.
+ * @function scrap
+ * @memberof utils
+ * @async
+ * @param {string} url1 - URL del primer sitio web (Toptal) para hacer scraping.
+ * @param {string} url2 - URL del segundo sitio web (Freelancer) para hacer scraping.
+ * @return {Promise&lt;Array>} Array de objetos que contienen los datos de las ofertas de trabajo extraídas.
+ * @throws {Error} Error en caso de problemas durante el scraping.
+ */
+
+const scrap = async (url1, url2) => {
+    try {
+        const scrapedData = []
+        // inicializamos una instancia del navegador (browser) con puppeteer.launch() y añadimos en el objeto de configuración la opción headless
+        console.log("Opening the browser......");
+        const browser = await puppeteer.launch({ headless: false })
+
+        // Abrimos una nueva pestaña en el navegador creando una instancia con el método newPage() a la que llamaremos page
+        const page1 = await browser.newPage();
+
+        // Scrap URL1 (Toptal)
+        await page1.goto(url1);
+        console.log(`Navigating to ${url1}...`);
+
+        const tmpurls1 = await page1.$$eval('h3[data-testid="project-card-title"] > a', data => data.map(a => a.href))
+        const urls1 = await tmpurls1.filter((link, index) => { return tmpurls1.indexOf(link) === index })
+        console.log("url capuradas", urls1)
+        const urlsSlice1 = urls1.slice(0, 5);
+
+        console.log(`${urlsSlice1.length} links encontrados`);
+        console.log(urlsSlice1);
+
+        for (jobLink in urlsSlice1) {
+            const job = await extractProductDataToptal(urlsSlice1[jobLink], browser)
+            scrapedData.push(job)
+        }
+
+        console.log(scrapedData, "Lo que devuelve mi función scraper", scrapedData.length)
+
+        await page1.close()
+
+        // SCRAP URL2 (Freelancer)
+
+        // Abrimos una nueva pestaña en el navegador creando una instancia con el método newPage() a la que llamaremos page
+        const page2 = await browser.newPage();
+        // await page2.goto(url2, { waitUntil: 'networkidle2', timeout: 0});
+        await page2.goto(url2);
+        console.log(`Navigating to ${url2}...`);
+
+        const tmpurls2 = await page2.$$eval('a[class="JobSearchCard-primary-heading-link"]', data => data.map(a => a.href))
+        const urls2 = await tmpurls2.filter((link, index) => { return tmpurls2.indexOf(link) === index })
+        console.log("url capuradas", urls2)
+        const urlsSlice2 = urls2.slice(0, 0);
+
+        console.log(`${urlsSlice2.length} links encontrados`);
+        console.log(urlsSlice2);
+
+        for (jobLink in urlsSlice2) {
+            const job = await extractProductDataFreelancer(urlsSlice2[jobLink], browser)
+            scrapedData.push(job)
+        }
+
+        console.log(scrapedData, "Lo que devuelve mi función scraper", scrapedData.length)
+
+        await page2.close();
+        await browser.close()
+
+        return scrapedData;
+
+    } catch (err) {
+        console.log("Error:", err);
+    }
+}
+
+exports.scrap = scrap;
+
+/********** DESCOMENTAR PARA PROBAR *********/
+// scrap(urlToptal, urlFreelancer).then(data => console.log(data))</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="controllers.html">controllers</a></li><li><a href="models.html">models</a></li><li><a href="scripts.html">scripts</a></li><li><a href="services.html">services</a></li><li><a href="utils.html">utils</a></li><li><a href="validators.html">validators</a></li></ul><h3>Global</h3><ul><li><a href="global.html#getDashboard">getDashboard</a></li><li><a href="global.html#getEditJob">getEditJob</a></li><li><a href="global.html#getEditUser">getEditUser</a></li><li><a href="global.html#getFavorites">getFavorites</a></li><li><a href="global.html#getHome">getHome</a></li><li><a href="global.html#getHomeBySkill">getHomeBySkill</a></li><li><a href="global.html#getLogin">getLogin</a></li><li><a href="global.html#getProfile">getProfile</a></li><li><a href="global.html#getScraping">getScraping</a></li><li><a href="global.html#getSignup">getSignup</a></li><li><a href="global.html#getUsers">getUsers</a></li><li><a href="global.html#validateForm">validateForm</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Thu Jul 04 2024 21:02:48 GMT+0200 (hora de verano de Europa central)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

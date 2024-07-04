@@ -1,12 +1,29 @@
+/**
+ * @fileoverview Este script gestiona eventos relacionados con formularios y llamadas a APIs para operaciones CRUD.
+ * @author Diego Bláquez Rosado, Emilio Latorre Guerra, Eduardo Fatou Cerrato
+ * @namespace scripts
+ */
+
 // General Variables
 const fragment = document.createDocumentFragment();
 
 
 /* *********************EVENTS**********************/
 
+
+/**
+ * Evento que se dispara cuando el contenido del DOM se carga completamente.
+ * Inicializa la validación del formulario en el formulario de registro.
+ */
+
 document.addEventListener('DOMContentLoaded', () => validateForm());
 
 // evento - User CREATE
+/**
+ * Evento que se dispara al enviar el formulario en el formulario de registro.
+ * Evita la presentación predeterminada del formulario, valida las entradas del formulario y envía una solicitud POST para crear un nuevo usuario.
+ */
+
 document.addEventListener('submit', (event) => {
     if (event.target.matches('#formSignUp')) {
         event.preventDefault();
@@ -53,6 +70,11 @@ document.addEventListener('submit', (event) => {
 });
 
 // evento - User UPDATE (by User)
+/**
+ * Evento que se dispara al enviar el formulario en el formulario de actualización de perfil (por usuario).
+ * Evita la presentación predeterminada del formulario y envía una solicitud PUT para actualizar los detalles del perfil del usuario.
+ */
+
 document.addEventListener('submit', (event) => {
     if (event.target.matches('#formProfile')) {
         event.preventDefault();
@@ -162,6 +184,11 @@ function getSignedInUserEmail() {
 }
 
 // evento - User UPDATE (by Admin)
+/**
+ * Evento que se dispara al enviar el formulario en el formulario de actualización de usuario (por administrador).
+ * Evita la presentación predeterminada del formulario, valida las entradas del formulario y envía una solicitud PUT para actualizar los detalles del usuario.
+ */
+
 document.addEventListener('submit', (event) => {
     if (event.target.matches('#formUser')) {
         event.preventDefault();
@@ -212,6 +239,11 @@ document.addEventListener('submit', (event) => {
 });
 
 // Evento - User DELETE (by User)
+/**
+ * Evento que se dispara al hacer clic en la eliminación de usuario (por usuario).
+ * Evita la acción predeterminada, valida la entrada de correo electrónico y envía una solicitud DELETE para eliminar un usuario.
+ */
+
 document.addEventListener('click', (event) => {
     if (event.target.matches('#deleteButton')) {
         event.preventDefault();
@@ -267,6 +299,11 @@ document.addEventListener('click', (event) => {
 });
 
 // Evento - User DELETE (by Admin)
+/**
+ * Evento que se dispara al hacer clic en la eliminación de usuario (por administrador).
+ * Evita la acción predeterminada, valida la entrada de correo electrónico y envía una solicitud DELETE para eliminar un usuario.
+ */
+
 document.addEventListener('click', (event) => {
     if (event.target.matches('.deleteUserButton')) {
         event.preventDefault();
@@ -306,6 +343,10 @@ document.addEventListener('click', (event) => {
 });
 
 // Evento - Favorito CREATE
+/**
+ * Evento que se dispara al guardar un anuncio como favorito.
+ */
+
 document.addEventListener('click', (event) => {
     if (event.target.matches('.favButtonCreate')) {
         event.preventDefault();
@@ -351,6 +392,10 @@ document.addEventListener('click', (event) => {
 });
 
 // Evento - Favorite DELETE
+/**
+ * Evento que se dispara al eliminar un favorito.
+ */
+
 document.addEventListener('click', (event) => {
     if (event.target.matches('.favButtonDelete')) {
         event.preventDefault();
@@ -392,6 +437,11 @@ document.addEventListener('click', (event) => {
 });
 
 // Evento - Job CREATE
+/**
+ * Evento que se dispara al enviar el formulario en la creación de anuncio.
+ * Evita la presentación predeterminada del formulario, valida las entradas del formulario y envía una solicitud POST para crear un nuevo anuncio.
+ */
+
 document.addEventListener('submit', (event) => {
     if (event.target.matches('#formDashboard')) {
         event.preventDefault();
@@ -442,6 +492,11 @@ document.addEventListener('submit', (event) => {
 });
 
 // Evento - Job DELETE
+/**
+ * Evento que se dispara al hacer clic en la eliminación de anuncio.
+ * Evita la acción predeterminada y envía una solicitud DELETE para eliminar un anuncio.
+ */
+
 document.addEventListener('click', (event) => {
     if (event.target.matches('.deleteJobButton')) {
         event.preventDefault();
@@ -480,7 +535,7 @@ document.addEventListener('click', (event) => {
     }
 });
 
-// evento - Job UPDATE - NO CONSIGO QUE ARRANQUE
+// evento - Job UPDATE
 document.addEventListener('submit', (event) => {
     if (event.target.matches('#formJob')) {
         event.preventDefault();
@@ -667,6 +722,11 @@ document.addEventListener('submit', (event) => {
 
 /**** SCRIPT SIGNUP.PUG *****/
 
+/**
+ * Función para validar el formulario de registro.
+ * Verifica si los campos obligatorios están completos y muestra mensajes de error si no lo están.
+ */
+
 const validateForm = () => {
     const form = document.querySelector('.cardForms');
     const email = document.querySelector('.email');
@@ -736,27 +796,27 @@ const validateForm = () => {
         });
         google.accounts.id.renderButton(
             document.getElementById('googleSignInButton'),
-            { theme: 'outline', size: 'large' } // opciones de personalización del botón
+            { theme: 'outline', size: 'large' } 
         );
-        google.accounts.id.prompt(); // muestra la ventana emergente de inicio de sesión de Google
+        google.accounts.id.prompt(); 
     };
 
     function handleCredentialResponse(response) {
         console.log("Encoded JWT ID token: " + response.credential);
-        // Aquí puedes enviar el token al servidor o manejarlo como necesites
+       
     }
 };
 
 
 //**** SCRIPT FOOTER.PUG **** */
 
-// Function that randomly shuffles the contents of an array
+
 const shuffleArray = (array) => {
-    //console.log('Primer array', array);
+
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [array[i], array[j]] = [array[j], array[i]];
-        //console.log(i, j, array);
+
     }
     return array;
 };

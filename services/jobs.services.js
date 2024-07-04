@@ -1,12 +1,35 @@
+/**
+ * @author Diego Bláquez Rosado, Emilio Latorre Guerra, Eduardo Fatou Cerrato
+ * @exports jobs.services
+ * @namespace services
+ */
+
 const Job = require('../models/jobs.model');
 const mongoose = require("mongoose");
 
+
+/**
+ * Crea o actualiza un anuncio en la base de datos.
+ * @memberof services
+ * @function createJob
+ * @async
+ * @param {string} title - Título del anuncio.
+ * @param {string} description - Descripción del anuncio.
+ * @param {string} skills - Habilidades requeridas para el trabajo.
+ * @param {string} client_location - Ubicación del cliente.
+ * @param {string} url - URL del anuncio.
+ * @param {string} source - Fuente del anuncio.
+ * @param {boolean} status - Estado del anuncio.
+ * @return {Promise<Object>} El objeto de anuncio creado o actualizado.
+ * @throws {Error} Error al crear o actualizar el anuncio.
+ */
+
 const createJob = async (title, description, skills, client_location, url, source, status) => {
         try {
-            // Busca el trabajo existente por título y descripción
+            // Busca el anuncio existente por título y descripción
             const existingJob = await Job.findOne({ title, description });
             if (existingJob) {
-                // Si existe en mongodb, actualiza el trabajo
+                // Si existe en mongodb, actualiza el anuncio
                 existingJob.skills = skills;
                 existingJob.client_location = client_location;
                 existingJob.url = url;
@@ -48,7 +71,18 @@ const createJob = async (title, description, skills, client_location, url, sourc
 // };
 // readJobs();
 
+
 // READ 2.0
+/**
+ * Lee anuncios de la base de datos, opcionalmente filtrando por palabra clave.
+ * @memberof services
+ * @function readJobs
+ * @async
+ * @param {string} [keyword] - Palabra clave para filtrar los anuncios.
+ * @return {Promise<Array>} Array de objetos de anuncio.
+ * @throws {Error} Error al listar los anuncios.
+ */
+
 const readJobs = async (keyword) => {
     try {
         let filter = {};
@@ -74,7 +108,18 @@ const readJobs = async (keyword) => {
     }
 };
 
+
 // Filtro por skills
+/**
+ * Lee anuncios de la base de datos filtrando por habilidad.
+ * @memberof services
+ * @function readJobsBySkill
+ * @async
+ * @param {string} skill - Habilidad para filtrar los anuncios.
+ * @return {Promise<Array>} Array de objetos de anuncio.
+ * @throws {Error} Error al buscar anuncios por habilidad.
+ */
+
 const readJobsBySkill = async (skill) => {
     try {
         let filter = {};
@@ -95,7 +140,18 @@ const readJobsBySkill = async (skill) => {
     }
 };
 
+
 // Filtro por objectId
+/**
+ * Lee anuncios de la base de datos filtrando por IDs.
+ * @memberof services
+ * @function readJobsByID
+ * @async
+ * @param {Array<string>} favoritesID - Array de IDs de anuncios.
+ * @return {Promise<Array>} Array de objetos de anuncio.
+ * @throws {Error} Error al buscar anuncios por ID.
+ */
+
 const readJobsByID = async (favoritesID) => {
     const jobsFiltered = [];
     try {
@@ -121,7 +177,17 @@ const readJobsByID = async (favoritesID) => {
     }
 };
 
+
 // Jobs solo hechos por Admin
+/**
+ * Lee anuncios creados solo por el administrador.
+ * @memberof services
+ * @function readJobsAdmin
+ * @async
+ * @return {Promise<Array>} Array de objetos de anuncio.
+ * @throws {Error} Error al buscar anuncios por administrador.
+ */
+
 const readJobsAdmin = async () => {
     try {
         let filter = {
@@ -137,6 +203,18 @@ const readJobsAdmin = async () => {
         console.log('Error searching jobs by skill:', error);
     }
 };
+
+
+/**
+ * Actualiza un anuncio en la base de datos.
+ * @memberof services
+ * @function updateJob
+ * @async
+ * @param {Object} filter - Filtro para encontrar el anuncio a actualizar.
+ * @param {Object} update - Datos a actualizar en el anuncio.
+ * @return {Promise<Object>} El objeto de anuncio modificado.
+ * @throws {Error} Error al actualizar el anuncio.
+ */
 
 const updateJob = async (filter, update) => {
     try {
@@ -160,6 +238,17 @@ const updateJob = async (filter, update) => {
 //     source: 'scraping',
 //     status: false
 // });
+
+
+/**
+ * Elimina un anuncio de la base de datos por título.
+ * @memberof services
+ * @function deleteJob
+ * @async
+ * @param {string} filter - Título del anuncio a eliminar.
+ * @return {Promise<Object>} Resultado de la eliminación.
+ * @throws {Error} Error al eliminar el anuncio.
+ */
 
 const deleteJob = async (filter) => {
     try {

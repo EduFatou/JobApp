@@ -1,3 +1,9 @@
+/**
+ * @author Diego Bláquez Rosado, Emilio Latorre Guerra, Eduardo Fatou Cerrato
+ * @exports web.controllers
+ * @namespace controllers
+ */
+
 const jobService = require('../services/jobs.services');
 const scraper = require('../utils/scraper');
 const apiController = require('./jobs.controllers');
@@ -6,6 +12,17 @@ const favoritesModels = require('../models/favorites.models');
 
 const urlToptal = 'https://www.toptal.com/freelance-jobs/developers/jobs/';
 const urlFreelancer = 'https://www.freelancer.es/jobs/php_html_css_javascript_nodejs_java/?featured=true&languages=en';
+
+
+/**
+ * Descripción de la función: Esta función obtiene y muestra la página principal con los trabajos actualizados desde la base de datos.
+ *
+ * @async
+ * @function getHome
+ * @param {Object} req - El objeto de solicitud de Express.
+ * @param {Object} res - El objeto de respuesta de Express.
+ * @returns {Promise<void>} - Una promesa que se resuelve cuando se completa la operación.
+ */
 
 const getHome = async (req, res) => {
     try {
@@ -25,6 +42,16 @@ const getHome = async (req, res) => {
     }
 }
 
+/**
+ * Descripción de la función: Esta función obtiene y muestra la página principal con los trabajos filtrados por habilidad desde la base de datos.
+ *
+ * @async
+ * @function getHomeBySkill
+ * @param {Object} req - El objeto de solicitud de Express.
+ * @param {Object} res - El objeto de respuesta de Express.
+ * @returns {Promise<void>} - Una promesa que se resuelve cuando se completa la operación.
+ */
+
 const getHomeBySkill = async (req, res) => {
     try {
         // Obtener todos los trabajos actualizados desde la base de datos
@@ -38,6 +65,17 @@ const getHomeBySkill = async (req, res) => {
         res.status(404).json({})
     }
 }
+
+
+/**
+ * Descripción de la función: Esta función realiza scraping de trabajos desde URLs externas y actualiza la base de datos con los nuevos trabajos.
+ *
+ * @async
+ * @function getScraping
+ * @param {Object} req - El objeto de solicitud de Express.
+ * @param {Object} res - El objeto de respuesta de Express.
+ * @returns {Promise<void>} - Una promesa que se resuelve cuando se completa la operación.
+ */
 
 const getScraping = async (req, res) => {
     try {
@@ -92,16 +130,44 @@ const getScraping = async (req, res) => {
 
 }
 
+
+/**
+ * Descripción de la función: Esta función muestra la página de registro.
+ *
+ * @function getSignup
+ * @param {Object} req - El objeto de solicitud de Express.
+ * @param {Object} res - El objeto de respuesta de Express.
+ */
+
 const getSignup = async (req, res) => {
     console.log(req.decoded);
     const role = req.decoded?.role || "nologeado";
     res.render("signup.pug", {role});
 }
 
+/**
+ * Descripción de la función: Esta función muestra la página de inicio de sesión.
+ *
+ * @function getLogin
+ * @param {Object} req - El objeto de solicitud de Express.
+ * @param {Object} res - El objeto de respuesta de Express.
+ */
+
 const getLogin = async (req, res) => {
     const role = req.decoded?.role || "nologeado";
     res.render("login.pug", {role});
 }
+
+
+/**
+ * Descripción de la función: Esta función obtiene y muestra los trabajos favoritos de un usuario.
+ *
+ * @async
+ * @function getFavorites
+ * @param {Object} req - El objeto de solicitud de Express.
+ * @param {Object} res - El objeto de respuesta de Express.
+ * @returns {Promise<void>} - Una promesa que se resuelve cuando se completa la operación.
+ */
 
 const getFavorites = async (req, res) => {
     try {
@@ -119,6 +185,17 @@ const getFavorites = async (req, res) => {
     }
 }
 
+
+/**
+ * Descripción de la función: Esta función obtiene y muestra el perfil de un usuario.
+ *
+ * @async
+ * @function getProfile
+ * @param {Object} req - El objeto de solicitud de Express.
+ * @param {Object} res - El objeto de respuesta de Express.
+ * @returns {Promise<void>} - Una promesa que se resuelve cuando se completa la operación.
+ */
+
 const getProfile = async (req, res) => {
     console.log(req.decoded.role);
     try {
@@ -133,6 +210,17 @@ const getProfile = async (req, res) => {
     }
 }
 
+
+/**
+ * Descripción de la función: Esta función obtiene y muestra todos los usuarios.
+ *
+ * @async
+ * @function getUsers
+ * @param {Object} req - El objeto de solicitud de Express.
+ * @param {Object} res - El objeto de respuesta de Express.
+ * @returns {Promise<void>} - Una promesa que se resuelve cuando se completa la operación.
+ */
+
 const getUsers = async (req, res) => {
     try {
         // Obtener todos los trabajos actualizados desde la base de datos
@@ -144,6 +232,17 @@ const getUsers = async (req, res) => {
         res.status(404).json({})
     }
 }
+
+
+/**
+ * Descripción de la función: Esta función obtiene y muestra la página de edición de un usuario.
+ *
+ * @async
+ * @function getEditUser
+ * @param {Object} req - El objeto de solicitud de Express.
+ * @param {Object} res - El objeto de respuesta de Express.
+ * @returns {Promise<void>} - Una promesa que se resuelve cuando se completa la operación.
+ */
 
 const getEditUser = async (req, res) => {
     try {
@@ -159,6 +258,17 @@ const getEditUser = async (req, res) => {
     }
 }
 
+
+/**
+ * Descripción de la función: Esta función obtiene y muestra la página de administración con los trabajos actualizados desde la base de datos.
+ *
+ * @async
+ * @function getDashboard
+ * @param {Object} req - El objeto de solicitud de Express.
+ * @param {Object} res - El objeto de respuesta de Express.
+ * @returns {Promise<void>} - Una promesa que se resuelve cuando se completa la operación.
+ */
+
 const getDashboard = async (req, res) => {
     try {
         // Obtener todos los trabajos actualizados desde la base de datos
@@ -172,6 +282,17 @@ const getDashboard = async (req, res) => {
         res.status(404).json({})
     }
 }
+
+
+/**
+ * Descripción de la función: Esta función obtiene y muestra la página de edición de un trabajo.
+ *
+ * @async
+ * @function getEditJob
+ * @param {Object} req - El objeto de solicitud de Express.
+ * @param {Object} res - El objeto de respuesta de Express.
+ * @returns {Promise<void>} - Una promesa que se resuelve cuando se completa la operación.
+ */
 
 const getEditJob = async (req, res) => {
     try {
