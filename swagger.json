@@ -1,0 +1,745 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "JobApp - Documentación de endpoints de API",
+    "description": "JobApp es una aplicación diseñada para facilitar la gestión de proyectos freelance. Utiliza técnicas de web scraping para recolectar y presentar proyectos freelance disponibles en diversas plataformas. Los usuarios pueden gestionar estos proyectos, guardarlos como favoritos, y editarlos según sus necesidades.\n\nLa aplicación soporta diferentes roles, incluyendo usuarios y administradores, cada uno con permisos específicos. La API proporciona rutas CRUD (Crear, Leer, Actualizar, Borrar) para gestionar usuarios, trabajos y favoritos, permitiendo una integración y manipulación completas de los datos a través de solicitudes HTTP.",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "email": "hola@jobapp.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version": "1.0.11"
+  },
+  "externalDocs": {
+    "description": "Find out more about Swagger",
+    "url": "http://swagger.io"
+  },
+  "servers": [
+    {
+      "url": "https://jobapp-w73i.onrender.com/",
+      "description": "Servidor de producción"
+    }
+  ],
+  "tags": [
+    {
+      "name": "jobs",
+      "description": "Manage freelance projects"
+    },
+    {
+      "name": "users",
+      "description": "Manage Users and Admins"
+    },
+    {
+      "name": "favorites",
+      "description": "Manage user's favorites projects"
+    }
+  ],
+  "paths": {
+    "/api/jobs": {
+      "post": {
+        "tags": [
+          "jobs"
+        ],
+        "summary": "Create a Freelance Project",
+        "description": "Create a Freelance Projects, only as an Admin",
+        "operationId": "postJob",
+        "requestBody": {
+          "description": "Create a Freelance Project",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Job"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/Job"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/Job"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Job"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Job"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid inputs or format"
+          },
+          "404": {
+            "description": "Job not found"
+          },
+          "500": {
+            "description": "Error in BBDD"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "jobs"
+        ],
+        "summary": "Find all Freelance Projects",
+        "description": "Find all Freelance Projects, both created by scrapping and by Admins",
+        "operationId": "getJobs",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Job"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Job"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error in BBDD"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "jobs"
+        ],
+        "summary": "Update a Freelance Project",
+        "description": "Update a Freelance Project, only those created by Admins not from scrapping.",
+        "operationId": "updateJob",
+        "parameters": [
+          {
+            "name": "title",
+            "in": "query",
+            "description": "Name of Project that needs to be updated",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Update a project",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Job"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/Job"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/Job"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Job"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Job"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid inputs or format"
+          },
+          "500": {
+            "description": "Error in BBDD"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "jobs"
+        ],
+        "summary": "Delete a Freelance Projects",
+        "description": "Delete a Freelance Project, only those created by Admins not from scrapping.",
+        "operationId": "deleteJob",
+        "parameters": [
+          {
+            "name": "title",
+            "in": "query",
+            "description": "Name of pet that needs to be updated",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Job"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Job"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid inputs or format"
+          },
+          "500": {
+            "description": "Error in BBDD"
+          }
+        }
+      }
+    },
+    "/api/users": {
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Create a User",
+        "description": "Create a User with user role, only jobApp can create Admins",
+        "operationId": "postUser",
+        "requestBody": {
+          "description": "Create a User",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserPost"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/UserPost"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/UserPost"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Items created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid inputs or format"
+          },
+          "500": {
+            "description": "Error in BBDD"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Find all Users",
+        "description": "Find all Users, both with role User and role Admin",
+        "operationId": "getUsers",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "query",
+            "description": "Email of User whose Favorite you want to get",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error in BBDD"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Update a User",
+        "description": "Update a User, both by the user itself or by Admins",
+        "operationId": "updateUser",
+        "requestBody": {
+          "description": "Update a User",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserPut"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/UserPut"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/UserPut"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Items updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input or format"
+          },
+          "500": {
+            "description": "Error in BBDD"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Delete a User",
+        "description": "Delete a User, by the user itself or by Admins.",
+        "operationId": "deleteUser",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input or format"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/favorites": {
+      "post": {
+        "tags": [
+          "favorites"
+        ],
+        "summary": "Create a Favorite",
+        "description": "Create a Favorite of a User",
+        "operationId": "postFavorite",
+        "requestBody": {
+          "description": "Create a Favorite",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FavoritePost"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/FavoritePost"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/FavoritePost"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Items created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Favorite"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Favorite"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid inputs or format"
+          },
+          "500": {
+            "description": "Error in BBDD"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "favorites"
+        ],
+        "summary": "Find all Favorites",
+        "description": "Find all Favorites by users registered on the app.",
+        "operationId": "getFavorites",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "query",
+            "description": "Email of User whose Favorite you want to get",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Favorite"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Favorite"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input or format"
+          },
+          "500": {
+            "description": "Error in BBDD"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "favorites"
+        ],
+        "summary": "Delete a Favorite",
+        "description": "Delete a Favorite, by the user itself or by Admins.",
+        "operationId": "deleteFavorite",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "query",
+            "description": "Email of User whose Favorite you want to delete",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Favorite"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Favorite"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "500": {
+            "description": "Error in BBDD"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Job": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "format": "text",
+            "example": "Project_Test"
+          },
+          "description": {
+            "type": "string",
+            "format": "text",
+            "example": "Project_Test description"
+          },
+          "skills": {
+            "type": "array",
+            "items": {},
+            "example": [
+              "sql",
+              "mongodb",
+              "javaScript"
+            ]
+          },
+          "client_location": {
+            "type": "string",
+            "format": "text",
+            "example": "London"
+          },
+          "url": {
+            "type": "string",
+            "description": "url",
+            "example": "http://www.google.com"
+          },
+          "source": {
+            "type": "string",
+            "description": "scraping / Admin",
+            "example": "scrraping"
+          },
+          "status": {
+            "type": "boolean"
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "format": "text",
+            "example": "John Doe"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "johndoe@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "John123"
+          },
+          "role": {
+            "type": "string",
+            "format": "user / admin",
+            "example": "user"
+          },
+          "logged": {
+            "type": "boolean",
+            "example": true
+          },
+          "last_logged_day": {
+            "type": "string"
+          }
+        }
+      },
+      "UserPost": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "format": "text",
+            "example": "John Doe"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "johndoe@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "John123"
+          }
+        }
+      },
+      "UserPut": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "format": "text",
+            "example": "John Doe"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "johndoe@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "John123"
+          },
+          "role": {
+            "type": "string",
+            "format": "user / admin",
+            "example": "user"
+          },
+          "logged": {
+            "type": "boolean",
+            "example": true
+          },
+          "last_logged_day": {
+            "type": "string"
+          },
+          "old_email": {
+            "type": "string",
+            "format": "email",
+            "example": "johndoeold@gmail.com"
+          }
+        }
+      },
+      "Favorite": {
+        "type": "object",
+        "properties": {
+          "fav_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "user_id": {
+            "type": "string",
+            "format": "int64"
+          },
+          "job_id": {
+            "type": "string",
+            "format": "int64"
+          }
+        },
+        "xml": {
+          "name": "tag"
+        }
+      },
+      "FavoritePost": {
+        "type": "object",
+        "properties": {
+          "user_id": {
+            "type": "string",
+            "format": "int64"
+          },
+          "job_id": {
+            "type": "string",
+            "format": "int64"
+          }
+        },
+        "xml": {
+          "name": "tag"
+        }
+      }
+    },
+    "requestBodies": {
+      "Job": {
+        "description": "Job object to be added to the app",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Job"
+            }
+          }
+        }
+      },
+      "User": {
+        "description": "User/Admin object",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/User"
+            }
+          }
+        }
+      },
+      "Favorite": {
+        "description": "Favorite object",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Favorite"
+            }
+          }
+        }
+      }
+    }
+  }
+}

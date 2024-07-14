@@ -14,8 +14,6 @@ body {
     background-size: cover;
     background-position:center;
     background-repeat: no-repeat;
-
-
 }
 
 /* **********************HEADER MENU******************************** */
@@ -149,6 +147,10 @@ input {
     background-color: rgb(255, 80, 109);
 }
 
+.fa-solid, .fa-regular, .fa-brands {
+    pointer-events: none;
+}
+
 .editButton {
     background-color: rgb(20, 106, 20);
 }
@@ -201,6 +203,7 @@ input {
     /* backdrop-filter: blur(6px); */
     box-shadow: 2px 3px 6px #00000017;
     margin: 20px 10px;
+    background-color: #fcfcfca3;
 }
 
 .cardUsers {
@@ -213,7 +216,8 @@ input {
     backdrop-filter: blur(6px);
     box-shadow: 2px 3px 6px #00000017;
     margin: 20px 10px;
-    gap: 30px
+    gap: 30px;
+    background-color: #fcfcfca3;
 }
 
 .bold{
@@ -266,6 +270,7 @@ input {
     backdrop-filter: blur(6px);
     box-shadow: 2px 3px 6px #00000017;
     margin: 20px 10px;
+    background-color: #fcfcfca3;
 }
 
 .cardForms input, .textarea {
@@ -285,6 +290,7 @@ input {
     background-color: #fcfcfca3;
     backdrop-filter: blur(6px);
     box-shadow: 2px 3px 6px #00000017;
+    background-color: #fcfcfca3;
 }
 
 .usersCardForms input {
@@ -407,6 +413,7 @@ footer h4 {
         backdrop-filter: blur(6px);
         box-shadow: 2px 3px 6px #00000017;
         margin: 20px 10px;
+        background-color: #fcfcfca3;
     }
 
     .card100width {
@@ -427,6 +434,7 @@ footer h4 {
         background-color: #fcfcfca3;
         backdrop-filter: blur(6px);
         box-shadow: 2px 3px 6px #00000017;
+        background-color: #fcfcfca3;
     }
 
     .usersCardForms input {
@@ -536,7 +544,7 @@ footer h4 {
     }
 
     body {
-        background-image: url('../assets/background2.jpg'); /* Cambia esto por la ruta de tu imagen para pantallas pequeñas */
+        background-image: url('../assets/background2.jpg');
     }
 }
 

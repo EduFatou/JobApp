@@ -49,18 +49,21 @@ document.addEventListener('submit', (event) => {
                 } else {
                     console.log('Success:', data);
 
-                    fetch('https://jobapp-w73i.onrender.com/login', {
-                        method: 'GET'
-                    })
-                        .then(response => response.text())
-                        .then(html => {
-                            document.open();
-                            document.write(html);
-                            document.close();
-                        })
-                        .catch((error) => {
-                            console.error('Error:', error);
-                        });
+                    // fetch('https://jobapp-w73i.onrender.com/login', {
+                    //     method: 'GET'
+                    // })
+                    //     .then(response => response.text())
+                    //     .then(html => {
+                    //         document.open();
+                    //         document.write(html);
+                    //         document.close();
+                    //     })
+                    //     .catch((error) => {
+                    //         console.error('Error:', error);
+                    //     });
+
+                    window.location.href = '/login';
+
                 }
             })
             .catch((error) => {

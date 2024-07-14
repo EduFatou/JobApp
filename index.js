@@ -1,9 +1,13 @@
 const express = require("express");
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
 require('dotenv').config();
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const app = express(); // Initialize server
 const port = 3000;
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Import Middlewares
 const morgan = require('./middlewares/morgan');
@@ -33,6 +37,8 @@ app.use('/api/user', usersRoutes);
 app.use('/api/favorites', favoritesRoutes);
 //app.use('/api-jsdoc', express.static(path.join(__dirname, './jsondocs')));
 
-app.listen(port, () => {
-    console.log(`Job App listening on https://jobapp-w73i.onrender.com:${port}`);
+const server = app.listen(port, () => {
+    console.log(`Example app listening on http://localhost:${port}`);
 });
+
+module.exports = server;
