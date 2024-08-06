@@ -1,6 +1,7 @@
 # JobApp
+![portada](public/assets/JobApp.png)
 JobApp es una aplicación diseñada para buscar y gestionar anuncios de proyectos freelance de todo el mundo. Permite a los usuarios encontrar proyectos freelance de varios portales de forma rápida y sencilla, interactuar con los anuncios, guardarlos como favoritos y redirigir a sus ofertas de trabajo originales. Además, los administradores pueden crear y editar tanto anuncios como usuarios.
-![portada](public/assets/freelance-job.png)
+
 ### Objetivos
 - ✅ **Diseño del Frontend:** Diseño responsive, mobile-first, semántica HTML5.
 - ✅ **Vistas con Pug:** Generación de vistas utilizando la librería Pug.
